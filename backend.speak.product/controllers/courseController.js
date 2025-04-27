@@ -31,3 +31,15 @@ exports.getCourseById = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getAllCourses = async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT course_id, name FROM public.courses;`
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error("getAllCourses error:", err);
+    res.status(500).json({ error: err.message });
+  }
+};

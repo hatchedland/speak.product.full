@@ -8,4 +8,7 @@ router.post('/', courseController.createCourse);
 // (optionally) get course by ID
 router.get('/:id', courseController.getCourseById);
 
+// get all courses
+router.get('/', courseController.getAllCourses);
+
 module.exports = router;
