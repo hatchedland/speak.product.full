@@ -5,7 +5,7 @@ exports.createCourse = async (req, res) => {
   const { title, description, duration } = req.body;
   try {
     const { rows } = await pool.query(
-      `INSERT INTO courses (title, description, duration)
+      `INSERT INTO public.courses (title, description, duration)
        VALUES ($1, $2, $3)
        RETURNING *;`,
       [title, description, duration]
@@ -21,7 +21,7 @@ exports.getCourseById = async (req, res) => {
   const { id } = req.params;
   try {
     const { rows } = await pool.query(
-      `SELECT * FROM courses WHERE course_id = $1;`,
+      `SELECT * FROM public.courses WHERE course_id = $1;`,
       [id]
     );
     if (!rows.length) return res.status(404).json({ error: "Course not found" });

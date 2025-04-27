@@ -21,7 +21,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: courses; Type: TABLE; Schema: public; Owner: rajanyadav
+-- Name: courses; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.courses (
@@ -30,14 +30,15 @@ CREATE TABLE public.courses (
     description text,
     credits integer,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    learning_outcomes text[],
+    created_by character varying(255),
+    language character varying(50) DEFAULT 'English'::character varying
 );
 
 
-ALTER TABLE public.courses OWNER TO rajanyadav;
-
 --
--- Name: courses_course_id_seq; Type: SEQUENCE; Schema: public; Owner: rajanyadav
+-- Name: courses_course_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.courses_course_id_seq
@@ -49,17 +50,15 @@ CREATE SEQUENCE public.courses_course_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.courses_course_id_seq OWNER TO rajanyadav;
-
 --
--- Name: courses_course_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rajanyadav
+-- Name: courses_course_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.courses_course_id_seq OWNED BY public.courses.course_id;
 
 
 --
--- Name: enrollments; Type: TABLE; Schema: public; Owner: rajanyadav
+-- Name: enrollments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.enrollments (
@@ -74,10 +73,8 @@ CREATE TABLE public.enrollments (
 );
 
 
-ALTER TABLE public.enrollments OWNER TO rajanyadav;
-
 --
--- Name: enrollments_enrollment_id_seq; Type: SEQUENCE; Schema: public; Owner: rajanyadav
+-- Name: enrollments_enrollment_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.enrollments_enrollment_id_seq
@@ -89,17 +86,15 @@ CREATE SEQUENCE public.enrollments_enrollment_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.enrollments_enrollment_id_seq OWNER TO rajanyadav;
-
 --
--- Name: enrollments_enrollment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rajanyadav
+-- Name: enrollments_enrollment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.enrollments_enrollment_id_seq OWNED BY public.enrollments.enrollment_id;
 
 
 --
--- Name: parents; Type: TABLE; Schema: public; Owner: rajanyadav
+-- Name: parents; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.parents (
@@ -114,10 +109,8 @@ CREATE TABLE public.parents (
 );
 
 
-ALTER TABLE public.parents OWNER TO rajanyadav;
-
 --
--- Name: parents_parent_id_seq; Type: SEQUENCE; Schema: public; Owner: rajanyadav
+-- Name: parents_parent_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.parents_parent_id_seq
@@ -129,17 +122,15 @@ CREATE SEQUENCE public.parents_parent_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.parents_parent_id_seq OWNER TO rajanyadav;
-
 --
--- Name: parents_parent_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rajanyadav
+-- Name: parents_parent_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.parents_parent_id_seq OWNED BY public.parents.parent_id;
 
 
 --
--- Name: schools; Type: TABLE; Schema: public; Owner: rajanyadav
+-- Name: schools; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.schools (
@@ -151,10 +142,8 @@ CREATE TABLE public.schools (
 );
 
 
-ALTER TABLE public.schools OWNER TO rajanyadav;
-
 --
--- Name: schools_school_id_seq; Type: SEQUENCE; Schema: public; Owner: rajanyadav
+-- Name: schools_school_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.schools_school_id_seq
@@ -166,17 +155,15 @@ CREATE SEQUENCE public.schools_school_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.schools_school_id_seq OWNER TO rajanyadav;
-
 --
--- Name: schools_school_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rajanyadav
+-- Name: schools_school_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.schools_school_id_seq OWNED BY public.schools.school_id;
 
 
 --
--- Name: student_parent; Type: TABLE; Schema: public; Owner: rajanyadav
+-- Name: student_parent; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.student_parent (
@@ -187,10 +174,8 @@ CREATE TABLE public.student_parent (
 );
 
 
-ALTER TABLE public.student_parent OWNER TO rajanyadav;
-
 --
--- Name: students; Type: TABLE; Schema: public; Owner: rajanyadav
+-- Name: students; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.students (
@@ -209,10 +194,8 @@ CREATE TABLE public.students (
 );
 
 
-ALTER TABLE public.students OWNER TO rajanyadav;
-
 --
--- Name: students_student_id_seq; Type: SEQUENCE; Schema: public; Owner: rajanyadav
+-- Name: students_student_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.students_student_id_seq
@@ -224,77 +207,72 @@ CREATE SEQUENCE public.students_student_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.students_student_id_seq OWNER TO rajanyadav;
-
 --
--- Name: students_student_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rajanyadav
+-- Name: students_student_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.students_student_id_seq OWNED BY public.students.student_id;
 
 
 --
--- Name: courses course_id; Type: DEFAULT; Schema: public; Owner: rajanyadav
+-- Name: courses course_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.courses ALTER COLUMN course_id SET DEFAULT nextval('public.courses_course_id_seq'::regclass);
 
 
 --
--- Name: enrollments enrollment_id; Type: DEFAULT; Schema: public; Owner: rajanyadav
+-- Name: enrollments enrollment_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.enrollments ALTER COLUMN enrollment_id SET DEFAULT nextval('public.enrollments_enrollment_id_seq'::regclass);
 
 
 --
--- Name: parents parent_id; Type: DEFAULT; Schema: public; Owner: rajanyadav
+-- Name: parents parent_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.parents ALTER COLUMN parent_id SET DEFAULT nextval('public.parents_parent_id_seq'::regclass);
 
 
 --
--- Name: schools school_id; Type: DEFAULT; Schema: public; Owner: rajanyadav
+-- Name: schools school_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schools ALTER COLUMN school_id SET DEFAULT nextval('public.schools_school_id_seq'::regclass);
 
 
 --
--- Name: students student_id; Type: DEFAULT; Schema: public; Owner: rajanyadav
+-- Name: students student_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.students ALTER COLUMN student_id SET DEFAULT nextval('public.students_student_id_seq'::regclass);
 
 
 --
--- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: rajanyadav
+-- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.courses (course_id, name, description, credits, created_at, updated_at) FROM stdin;
-1	Introduction to Algebra	Basic algebra concepts	3	2025-04-24 23:25:53.365968+05:30	2025-04-24 23:25:53.365968+05:30
-2	World History	Survey of world civilizations	4	2025-04-24 23:25:53.365968+05:30	2025-04-24 23:25:53.365968+05:30
-3	English Literature	Study of classic literature	3	2025-04-24 23:25:53.365968+05:30	2025-04-24 23:25:53.365968+05:30
+COPY public.courses (course_id, name, description, credits, created_at, updated_at, learning_outcomes, created_by, language) FROM stdin;
+4	Introduction to Programming	Learn the basics of programming.	3	2025-04-26 18:30:41.210262+05:30	2025-04-26 18:30:41.210262+05:30	{"Learn about arrays.","Understand variables.","Write functions."}	user123	English
+5	Advanced SQL	Deep dive into SQL.	4	2025-04-26 18:30:41.210262+05:30	2025-04-26 18:30:41.210262+05:30	{"Master joins.","Optimize with indexes.","Work with transactions."}	user123	English
+6	Web Development Fundamentals	Build your first website.	3	2025-04-26 18:30:41.210262+05:30	2025-04-26 18:30:41.210262+05:30	{"Create HTML structure.","Style with CSS.","Add interactivity with JavaScript."}	user123	English
 \.
 
 
 --
--- Data for Name: enrollments; Type: TABLE DATA; Schema: public; Owner: rajanyadav
+-- Data for Name: enrollments; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.enrollments (enrollment_id, student_id, course_id, enrollment_date, grade, status, created_at, updated_at) FROM stdin;
-1	1	1	2025-04-24	\N	enrolled	2025-04-24 23:26:46.59205+05:30	2025-04-24 23:26:46.59205+05:30
-2	1	2	2025-04-24	\N	enrolled	2025-04-24 23:26:46.59205+05:30	2025-04-24 23:26:46.59205+05:30
-3	2	1	2025-04-24	A	completed	2025-04-24 23:26:46.59205+05:30	2025-04-24 23:26:46.59205+05:30
-4	2	3	2025-04-24	\N	enrolled	2025-04-24 23:26:46.59205+05:30	2025-04-24 23:26:46.59205+05:30
-5	3	1	2025-04-24	\N	enrolled	2025-04-24 23:26:46.59205+05:30	2025-04-24 23:26:46.59205+05:30
-6	3	2	2025-04-24	\N	enrolled	2025-04-24 23:26:46.59205+05:30	2025-04-24 23:26:46.59205+05:30
+40	2	4	2025-04-27	\N	Enrolled	2025-04-27 13:59:30.409407+05:30	2025-04-27 14:00:06.764814+05:30
+41	3	4	2025-04-27	\N	Enroll Rejected	2025-04-27 14:01:31.420481+05:30	2025-04-27 14:04:16.841243+05:30
+37	1	4	2025-04-26	\N	Enrolled	2025-04-26 18:34:57.814335+05:30	2025-04-27 14:56:52.896006+05:30
 \.
 
 
 --
--- Data for Name: parents; Type: TABLE DATA; Schema: public; Owner: rajanyadav
+-- Data for Name: parents; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.parents (parent_id, first_name, last_name, email, phone, address, created_at, updated_at) FROM stdin;
@@ -305,7 +283,7 @@ COPY public.parents (parent_id, first_name, last_name, email, phone, address, cr
 
 
 --
--- Data for Name: schools; Type: TABLE DATA; Schema: public; Owner: rajanyadav
+-- Data for Name: schools; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.schools (school_id, name, address, created_at, updated_at) FROM stdin;
@@ -315,7 +293,7 @@ COPY public.schools (school_id, name, address, created_at, updated_at) FROM stdi
 
 
 --
--- Data for Name: student_parent; Type: TABLE DATA; Schema: public; Owner: rajanyadav
+-- Data for Name: student_parent; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.student_parent (student_id, parent_id, relationship_type, is_primary_contact) FROM stdin;
@@ -328,7 +306,7 @@ COPY public.student_parent (student_id, parent_id, relationship_type, is_primary
 
 
 --
--- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: rajanyadav
+-- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.students (student_id, first_name, last_name, date_of_birth, gender, email, phone, address, school_id, grade_level, created_at, updated_at) FROM stdin;
@@ -339,42 +317,42 @@ COPY public.students (student_id, first_name, last_name, date_of_birth, gender, 
 
 
 --
--- Name: courses_course_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rajanyadav
+-- Name: courses_course_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.courses_course_id_seq', 3, true);
-
-
---
--- Name: enrollments_enrollment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rajanyadav
---
-
-SELECT pg_catalog.setval('public.enrollments_enrollment_id_seq', 6, true);
+SELECT pg_catalog.setval('public.courses_course_id_seq', 6, true);
 
 
 --
--- Name: parents_parent_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rajanyadav
+-- Name: enrollments_enrollment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.enrollments_enrollment_id_seq', 42, true);
+
+
+--
+-- Name: parents_parent_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.parents_parent_id_seq', 3, true);
 
 
 --
--- Name: schools_school_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rajanyadav
+-- Name: schools_school_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.schools_school_id_seq', 2, true);
 
 
 --
--- Name: students_student_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rajanyadav
+-- Name: students_student_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.students_student_id_seq', 3, true);
 
 
 --
--- Name: courses courses_pkey; Type: CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: courses courses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.courses
@@ -382,7 +360,7 @@ ALTER TABLE ONLY public.courses
 
 
 --
--- Name: enrollments enrollments_pkey; Type: CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: enrollments enrollments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.enrollments
@@ -390,7 +368,7 @@ ALTER TABLE ONLY public.enrollments
 
 
 --
--- Name: enrollments enrollments_student_id_course_id_key; Type: CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: enrollments enrollments_student_id_course_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.enrollments
@@ -398,7 +376,7 @@ ALTER TABLE ONLY public.enrollments
 
 
 --
--- Name: parents parents_email_key; Type: CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: parents parents_email_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.parents
@@ -406,7 +384,7 @@ ALTER TABLE ONLY public.parents
 
 
 --
--- Name: parents parents_pkey; Type: CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: parents parents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.parents
@@ -414,7 +392,7 @@ ALTER TABLE ONLY public.parents
 
 
 --
--- Name: schools schools_pkey; Type: CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: schools schools_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schools
@@ -422,7 +400,7 @@ ALTER TABLE ONLY public.schools
 
 
 --
--- Name: student_parent student_parent_pkey; Type: CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: student_parent student_parent_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.student_parent
@@ -430,7 +408,7 @@ ALTER TABLE ONLY public.student_parent
 
 
 --
--- Name: students students_email_key; Type: CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: students students_email_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.students
@@ -438,7 +416,7 @@ ALTER TABLE ONLY public.students
 
 
 --
--- Name: students students_pkey; Type: CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: students students_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.students
@@ -446,7 +424,7 @@ ALTER TABLE ONLY public.students
 
 
 --
--- Name: enrollments enrollments_course_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: enrollments enrollments_course_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.enrollments
@@ -454,7 +432,7 @@ ALTER TABLE ONLY public.enrollments
 
 
 --
--- Name: enrollments enrollments_student_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: enrollments enrollments_student_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.enrollments
@@ -462,7 +440,7 @@ ALTER TABLE ONLY public.enrollments
 
 
 --
--- Name: student_parent student_parent_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: student_parent student_parent_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.student_parent
@@ -470,7 +448,7 @@ ALTER TABLE ONLY public.student_parent
 
 
 --
--- Name: student_parent student_parent_student_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: student_parent student_parent_student_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.student_parent
@@ -478,7 +456,7 @@ ALTER TABLE ONLY public.student_parent
 
 
 --
--- Name: students students_school_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: rajanyadav
+-- Name: students students_school_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.students
