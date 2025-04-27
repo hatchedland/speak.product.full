@@ -46,27 +46,35 @@ const CourseDetail = () => {
 
   // Course functionality
   const { student } = useStudent();
-  const id = 4; // This should come from params or props
+  const [courseId, setCourseId] = useState(4); // Initial course ID, will come from params or props later
   const [course, setCourse] = useState(null);
+  const [allCourses, setAllCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [enrollLoading, setEnrollLoading] = useState(false);
   const [enrollSuccess, setEnrollSuccess] = useState(null);
 
   useEffect(() => {
-    const fetchCourse = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       try {
-        const data = await courseService.getCourseById(id);
-        setCourse(data);
+        // Fetch all courses for the dropdown
+        const coursesData = await courseService.getAllCourses();
+        setAllCourses(coursesData);
+
+        // Fetch the specific course details based on courseId state
+        const courseData = await courseService.getCourseById(courseId);
+        setCourse(courseData);
       } catch (error) {
-        toast.error("Failed to fetch course details.");
+        toast.error("Failed to fetch data.");
+        console.error("Fetch data error:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCourse();
-  }, [id]);
+    fetchData();
+  }, [courseId]); // Rerun effect when courseId changes
 
   const navigate = useNavigate();
 
@@ -92,7 +100,7 @@ const CourseDetail = () => {
   };
 
   const studentCourseExists = student?.courses?.find(
-    (studentCourse) => studentCourse.course_id === course?.course_id
+    (studentCourse) => studentCourse.course_id === courseId
   );
 
   if (loading) {
@@ -122,6 +130,27 @@ const CourseDetail = () => {
         />
       )}
 
+      {/* Course ID Dropdown */}
+      <div className="container flex gap-4 items-center mx-auto mt-2">
+        <label htmlFor="course-select" className="inline text-sm font-medium text-gray-700">
+          Select Course:
+        </label>
+        <select
+          id="course-select"
+          name="course-select"
+          className="block pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          value={courseId}
+          onChange={(e) => setCourseId(parseInt(e.target.value, 10))}
+        >
+          {allCourses.map((course) => (
+            <option key={course.course_id} value={course.course_id}>
+              Course ID: {course.course_id}
+            </option>
+          ))}
+        </select>
+      </div>
+
+
       {/* Hero Section */}
       <div className="container mx-auto mt-2 p-[48px] bg-[#17294D] text-white rounded-lg">
         <CourseCard
@@ -142,7 +171,7 @@ const CourseDetail = () => {
               onClick={handleEnroll}
               disabled={enrollLoading || enrollSuccess || !student || !course}
               className={`mt-4 md:mt-0 font-semibold px-8 py-3 rounded shadow transition flex items-center ${
-                enrollLoading || enrollSuccess || !student || !course
+              enrollLoading || enrollSuccess || !student || !course
                   ? "bg-[#D9BF8D]"
                   : "bg-[#D9BF8D] hover:bg-[#003366]"
               } text-white`}
