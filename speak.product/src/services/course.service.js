@@ -1,0 +1,15 @@
+import API from "../api/axios.config";
+
+const courseService = {
+  getCourseById: async (id) => {
+    try {
+      const response = await API.get(`/courses/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching course:", error);
+      throw error;
+    }
+  },
+};
+
+export default courseService;
