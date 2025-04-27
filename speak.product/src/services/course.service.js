@@ -10,6 +10,15 @@ const courseService = {
       throw error;
     }
   },
+  createCourse: async (courseData) => {
+    try {
+      const response = await API.post('/courses', courseData);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating course:', error);
+      throw error;
+    }
+  },
 };
 
 export default courseService;

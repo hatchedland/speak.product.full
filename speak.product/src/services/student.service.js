@@ -30,6 +30,16 @@ const studentService = {
       throw error;
     }
   },
+
+  createStudent: async (studentData) => {
+    try {
+      const response = await API.post('/students', studentData);
+      return response.data;
+    } catch (error) {
+      console.error("Error creating student:", error);
+      throw error;
+    }
+  },
 };
 
 export default studentService;

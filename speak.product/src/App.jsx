@@ -10,6 +10,8 @@ import Layout from "./layout/Layout";
 import CourseDetail from "./pages/CourseDetail";
 import NotFound from "./pages/404NotFound";
 import Approval from "./pages/Approval";
+import AddStudent from "./pages/AddStudent";
+import AddCourse from "./pages/AddCourse";
 import { StudentProvider } from "./context/StudentContext";
 import Success from "./pages/Success";
 
@@ -45,6 +47,8 @@ function App() {
                 />
               }
             />
+            <Route path="/add-student" element={<AddStudent />} />
+            <Route path="/add-course" element={<AddCourse />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

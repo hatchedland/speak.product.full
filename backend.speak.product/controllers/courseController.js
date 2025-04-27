@@ -2,13 +2,13 @@
 const pool = require('../db');
 
 exports.createCourse = async (req, res) => {
-  const { title, description, duration } = req.body;
+  const { name, description, credits, learning_outcomes, created_by, language } = req.body;
   try {
     const { rows } = await pool.query(
-      `INSERT INTO public.courses (title, description, duration)
-       VALUES ($1, $2, $3)
+      `INSERT INTO public.courses (name, description, credits, learning_outcomes, created_by, language)
+       VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *;`,
-      [title, description, duration]
+      [name, description, credits, learning_outcomes, created_by, language]
     );
     res.status(201).json(rows[0]);
   } catch (err) {
